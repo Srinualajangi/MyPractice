@@ -26,7 +26,7 @@ VALIDATE(){
     fi
 }
 
-yum install nginx -y
+yum install nginx -y &>>LOGFILE
 VALIDATE $? "Installing nginx"
 systemctl enable nginx &>>LOGFILE
 systemctl start nginx &>>LOGFILE
