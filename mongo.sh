@@ -26,15 +26,17 @@ VALIDATE(){
     fi
 }
 
-yum install nginx -y &>>LOGFILE
-VALIDATE $? "Installing nginx"
-systemctl enable nginx &>>LOGFILE
-systemctl start nginx &>>LOGFILE
-rm -rf /usr/share/nginx/html/* &>>LOGFILE
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>>LOGFILE
-cd /usr/share/nginx/html 
-unzip /tmp/web.zip &>>LOGFILE
+cp mongo.repo /etc/yum.repos.d/mongo.repo &>>LOGFILE
+VALIDATE $? "Copied repo file"
 
-cp roboshop.conf /etc/nginx/default.d/roboshop.conf &>>LOGFILE
-systemctl restart nginx &>>LOGFILE
-
+yum install mongodb-org -y &>>LOGFILE
+VALIDATE $? " Installing mongo"
+systemctl enable mongod &>>LOGFILE
+VALIDATE $? "Enabled on boot"
+systemctl start mongod &>>LOGFILE
+VALIDATE $? "Started service"
+sed -i 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf &>>LOGFILE
+VALIDATE $? "Conf modified"
+systemctl restart mongod &>>LOGFILE
+VALIDATE $? "restarted"
+netstat -tnlp
