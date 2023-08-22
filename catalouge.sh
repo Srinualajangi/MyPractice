@@ -41,7 +41,11 @@ VALIDATE $? "Unzipped Application code"
 cd /app 
 npm install &>> $LOGFILE
 VALIDATE $? "npm packages installed"
+
+
 cp catalogue.service etc/systemd/system/catalogue.service &>> $LOGFILE
+VALIDATE $? "Created config file"
+
 systemctl daemon-reload &>> $LOGFILE
 VALIDATE $? "daemon reloaded"
 systemctl enable catalogue &>> $LOGFILE
