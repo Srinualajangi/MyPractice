@@ -26,15 +26,15 @@ VALIDATE(){
     fi
 }
 
-yum install nginx -y &>>LOGFILE
+yum install nginx -y &>> $LOGFILE
 VALIDATE $? "Installing nginx"
-systemctl enable nginx &>>LOGFILE
-systemctl start nginx &>>LOGFILE
-rm -rf /usr/share/nginx/html/* &>>LOGFILE
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>>LOGFILE
+systemctl enable nginx &>> $LOGFILE
+systemctl start nginx &>> $LOGFILE
+rm -rf /usr/share/nginx/html/* &>> $LOGFILE
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LOGFILE
 cd /usr/share/nginx/html 
-unzip /tmp/web.zip &>>LOGFILE
+unzip /tmp/web.zip &>> $LOGFILE
 
-cp roboshop.conf /etc/nginx/default.d/roboshop.conf &>>LOGFILE
-systemctl restart nginx &>>LOGFILE
+cp roboshop.conf /etc/nginx/default.d/roboshop.conf &>> $LOGFILE
+systemctl restart nginx &>> $LOGFILE
 
