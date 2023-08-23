@@ -43,7 +43,7 @@ npm install &>> $LOGFILE
 VALIDATE $? "npm packages installed"
 
 
-cp catalogue.service etc/systemd/system/catalogue.service &>> $LOGFILE
+cp /root/MyPractice/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
 VALIDATE $? "Created config file"
 
 systemctl daemon-reload &>> $LOGFILE
@@ -53,7 +53,7 @@ VALIDATE $? "enabled on boot"
 systemctl start catalogue &>> $LOGFILE
 VALIDATE $? "service started"
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+cp /root/MyPractice/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
 VALIDATE $? "repo loaded"
 
 yum install mongodb-org-shell -y &>> $LOGFILE
