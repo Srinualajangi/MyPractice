@@ -1,4 +1,5 @@
 #!/bin/bash
+
 DATE=$(date +%F)
 LOGSDIR=/tmp
 # /home/centos/shellscript-logs/script-name-date.log
@@ -26,44 +27,63 @@ VALIDATE(){
     fi
 }
 
-curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> $LOGFILE
-VALIDATE $? "Setting up Nodejs Repos"
-yum install nodejs -y &>> $LOGFILE
-VALIDATE $? "Installing Nodejs"
-useradd roboshop
-VALIDATE $? "Created User roboshop"
-mkdir /app &>> $LOGFILE
-curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>> $LOGFILE 
-VALIDATE $? "Downoaded the Application code"
-cd /app &>> $LOGFILE
-unzip /tmp/catalogue.zip &>> $LOGFILE
-VALIDATE $? "Unzipped Application code"
-cd /app 
-npm install &>> $LOGFILE
-VALIDATE $? "npm packages installed"
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>$LOGFILE
 
+VALIDATE $? "Setting up NPM Source"
 
-cp /root/MyPractice/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
-VALIDATE $? "Created config file"
+yum install nodejs -y &>>$LOGFILE
 
-systemctl daemon-reload &>> $LOGFILE
-VALIDATE $? "daemon reloaded"
-systemctl enable catalogue &>> $LOGFILE
-VALIDATE $? "enabled on boot"
-systemctl start catalogue &>> $LOGFILE
-VALIDATE $? "service started"
+VALIDATE $? "Installing NodeJS"
 
-cp /root/MyPractice/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
-VALIDATE $? "repo loaded"
+#once the user is created, if you run this script 2nd time
+# this command will defnitely fail
+# IMPROVEMENT: first check the user already exist or not, if not exist then create
+useradd roboshop &>>$LOGFILE
 
-yum install mongodb-org-shell -y &>> $LOGFILE
-VALIDATE $? "Package have been instaled"
+#write a condition to check directory already exist or not
+mkdir /app &>>$LOGFILE
 
-mongo --host MONGODB-SERVER-IPADDRESS </app/schema/catalogue.js &>> $LOGFILE
-VALIDATE $? "Schema have been loaded"
+curl -o /tmp/catalogue.zip https://roboshop-builds.s3.amazonaws.com/catalogue.zip &>>$LOGFILE
 
+VALIDATE $? "downloading catalogue artifact"
 
+cd /app &>>$LOGFILE
 
+VALIDATE $? "Moving into app directory"
 
+unzip /tmp/catalogue.zip &>>$LOGFILE
 
+VALIDATE $? "unzipping catalogue"
 
+npm install &>>$LOGFILE
+
+VALIDATE $? "Installing dependencies"
+
+# give full path of catalogue.service because we are inside /app
+cp /home/centos/MyPractice/catalogue.service /etc/systemd/system/catalogue.service &>>$LOGFILE
+
+VALIDATE $? "copying catalogue.service"
+
+systemctl daemon-reload &>>$LOGFILE
+
+VALIDATE $? "daemon reload"
+
+systemctl enable catalogue &>>$LOGFILE
+
+VALIDATE $? "Enabling Catalogue"
+
+systemctl start catalogue &>>$LOGFILE
+
+VALIDATE $? "Starting Catalogue"
+
+cp /home/centos/MyPractice/mongo.repo /etc/yum.repos.d/mongo.repo &>>$LOGFILE
+
+VALIDATE $? "Copying mongo repo"
+
+yum install mongodb-org-shell -y &>>$LOGFILE
+
+VALIDATE $? "Installing mongo client"
+
+mongo --host mongo.glitztechs.com </app/schema/catalogue.js &>>$LOGFILE
+
+VALIDATE $? "loading catalogue data into mongodb"
