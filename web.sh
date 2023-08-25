@@ -1,4 +1,5 @@
 #!/bin/bash
+
 DATE=$(date +%F)
 LOGSDIR=/tmp
 # /home/centos/shellscript-logs/script-name-date.log
@@ -26,15 +27,38 @@ VALIDATE(){
     fi
 }
 
-yum install nginx -y &>> $LOGFILE
-VALIDATE $? "Installing nginx"
-systemctl enable nginx &>> $LOGFILE
-systemctl start nginx &>> $LOGFILE
-rm -rf /usr/share/nginx/html/* &>> $LOGFILE
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LOGFILE
-cd /usr/share/nginx/html 
-unzip /tmp/web.zip &>> $LOGFILE
+yum install nginx -y &>>$LOGFILE
 
-cp roboshop.conf /etc/nginx/default.d/roboshop.conf &>> $LOGFILE
-systemctl restart nginx &>> $LOGFILE
+VALIDATE $? "Installing Nginx"
 
+systemctl enable nginx &>>$LOGFILE
+
+VALIDATE $? "Enabling Nginx"
+
+systemctl start nginx &>>$LOGFILE
+
+VALIDATE $? "Starting Nginx"
+
+rm -rf /usr/share/nginx/html/* &>>$LOGFILE
+
+VALIDATE $? "Removing default index html files"
+
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>>$LOGFILE
+
+VALIDATE $? "Downloading web artifact"
+
+cd /usr/share/nginx/html &>>$LOGFILE
+
+VALIDATE $? "Moving to default HTML directory"
+
+unzip /tmp/web.zip &>>$LOGFILE
+
+VALIDATE $? "unzipping web artifact"
+
+cp /home/centos/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf  &>>$LOGFILE
+
+VALIDATE $? "copying roboshop config"
+
+systemctl restart nginx  &>>$LOGFILE
+
+VALIDATE $? "Restarting Nginx"
