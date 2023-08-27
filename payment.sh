@@ -35,7 +35,7 @@ useradd roboshop &>>$LOGFILE
 
 mkdir /app  &>>$LOGFILE
 
-curl -L -o /tmp/payment.zip https://roboshop-builds.s3.amazonaws.com/payment.zip &>>$LOGFILE
+curl -L -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment.zip &>>$LOGFILE
 
 VALIDATE $? "Downloading artifact"
 
@@ -51,7 +51,7 @@ pip3.6 install -r requirements.txt &>>$LOGFILE
 
 VALIDATE $? "Installing dependencies"
 
-cp /home/centos/roboshop-shell/payment.service /etc/systemd/system/payment.service &>>$LOGFILE
+cp /home/centos/Robo-shop-Project/payment.service /etc/systemd/system/payment.service &>>$LOGFILE
 
 VALIDATE $? "copying payment service"
 
