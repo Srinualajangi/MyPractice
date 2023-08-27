@@ -21,7 +21,7 @@ do
     {
             "Changes": [{
             "Action": "CREATE",
-                        "ResourceRecordSet": {
+                        "Resource Record Set ": {
                             "Name": "'$i.$DOMAIN_NAME'",
                             "Type": "A",
                             "TTL": 300,
