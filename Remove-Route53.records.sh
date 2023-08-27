@@ -13,7 +13,7 @@ do
                 "Name": "'$i.$DOMAIN_NAME'",
                 "Type": "A",
                 "TTL": 300,
-                "ResourceRecords": []
+                "ResourceRecords": [{"Value": "0.0.0.0"}]  // An empty or invalid IP address
             }
         }]
     }'
