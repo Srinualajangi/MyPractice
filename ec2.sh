@@ -6,7 +6,7 @@ DOMAIN_NAME=glitztechs.com
 AMI_ID=ami-03265a0778a880afb
 SECURITY_GROUP_ID=sg-05a39fb39312bc6d3
 
-for i "${NAMES[@]}"
+for i in "${NAMES[@]}"
 do 
     if [[ $i = "mysql" ]]
         then INSTANCE_TYPE="t3.medium" 
