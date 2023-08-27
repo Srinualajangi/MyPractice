@@ -4,7 +4,7 @@ NAMES=("redis" "mysql" "rabbitmq" "user" "cart" "shipping" "payment" "dispatch")
 INSTANCE_TYPE=""
 DOMAIN_NAME=glitztechs.com
 AMI_ID=ami-03265a0778a880afb
-SECURITY_GROUP_ID=sg-05a39fb39312bc6d3
+SECURITY_GROUP_ID=sg-0cd982915d7ae01a1
 
 for i in "${NAMES[@]}"
 do 
