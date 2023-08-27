@@ -31,7 +31,7 @@ yum module disable mysql -y &>> $LOGFILE
 
 VALIDATE $? "Disabling the default version"
 
-cp /home/centos/rRobo-shop-Project/mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
+cp /home/centos/Robo-shop-Project/mysql.repo /etc/yum.repos.d/mysql.repo &>> $LOGFILE
 
 VALIDATE $? "Copying MySQL repo" 
 
